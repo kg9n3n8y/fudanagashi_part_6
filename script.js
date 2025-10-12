@@ -11,6 +11,31 @@ document.addEventListener("DOMContentLoaded", function() {
     let startTime;
     let currentFuda = 0;
 
+    // プリロードされた画像を保持する配列
+    const preloadedImages = {};
+
+    // 画像のプリロード処理
+    function preloadImages() {
+        // 初期画像
+        const initialImage = new Image();
+        initialImage.src = './torifuda/tori_0.png';
+        preloadedImages['./torifuda/tori_0.png'] = initialImage;
+
+        // 全ての札の表裏画像をプリロード
+        fudalist.forEach(fuda => {
+            const normalImage = new Image();
+            normalImage.src = fuda.normal;
+            preloadedImages[fuda.normal] = normalImage;
+
+            const reverseImage = new Image();
+            reverseImage.src = fuda.reverse;
+            preloadedImages[fuda.reverse] = reverseImage;
+        });
+    }
+
+    // DOM読み込み時に画像をプリロード
+    preloadImages();
+
     // HTML要素の取得
     const imageElement = document.getElementById('random-image');
     const reloadButton = document.getElementById('reload-button');
